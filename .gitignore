@@ -130,6 +130,3 @@ dmypy.json
 
 # Visual Studio Code files
 .vscode/
-
-test*
-*.zip

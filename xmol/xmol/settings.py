@@ -123,3 +123,15 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Neural network config variables
+ML_MODELS_PATH = BASE_DIR / 'main' / 'ml' / 'trained_models'
+GCN_MODEL_PATH = ML_MODELS_PATH / 'gcn_best_val_acc.pth'
+PGEXPLAINER_MODEL_PATH = ML_MODELS_PATH / 'pgexplainer.pth'
+
+NUM_FEATURES = 9
+NUM_CLASSES = 2
+
+PGEXPLAINER_IN_CHANNELS = 512
+
+DEVICE_TYPE = 'cpu'

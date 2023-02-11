@@ -26,40 +26,43 @@
         </div>
     </div>
 
-    <div id="explanations" class="carousel carousel-dark slide" data-bs-ride="carousel">
+    {% if not error %}
+        <div id="explanations" class="carousel carousel-dark slide" data-bs-ride="carousel">
 
-        <div class="carousel-indicators">
-        <button type="button" data-bs-target="#explanations" data-bs-slide-to="0" class="active"></button>
-        <button type="button" data-bs-target="#explanations" data-bs-slide-to="1"></button>
-        <button type="button" data-bs-target="#explanations" data-bs-slide-to="2"></button>
-        </div>
-        
-        <div class="carousel-inner" style="padding-top: 10px;">
-            <div class="carousel-item active" data-bs-interval="10000" style="height: 60vh;">
-                <img src="data:image/png;base64,{{ GradCAM }}" class="d-block h-100" alt="GradCAM explanation" style="margin: auto;">
-                <div class="carousel-caption d-none d-md-block">
-                <h5>GradCAM explanation</h5>
+            <div class="carousel-indicators">
+            <button type="button" data-bs-target="#explanations" data-bs-slide-to="0" class="active"></button>
+            <button type="button" data-bs-target="#explanations" data-bs-slide-to="1"></button>
+            <button type="button" data-bs-target="#explanations" data-bs-slide-to="2"></button>
+            </div>
+            
+            <div class="carousel-inner" style="padding-top: 10px;">
+                <div class="carousel-item active" data-bs-interval="10000" style="height: 60vh;">
+                    <img src="data:image/png;base64,{{ GradCAM }}" class="d-block h-100" alt="GradCAM explanation" style="margin: auto;">
+                    <div class="carousel-caption d-none d-md-block">
+                    <h5>GradCAM explanation</h5>
+                    </div>
+                </div>
+                <div class="carousel-item" data-bs-interval="10000" style="height: 60vh;">
+                    <img src="data:image/png;base64,{{ DeepLIFT }}" class="d-block h-100" alt="DeepLIFT explanation" style="margin: auto;">
+                    <div class="carousel-caption d-none d-md-block">
+                    <h5>DeepLIFT explanation</h5>
+                    </div>
+                </div>
+                <div class="carousel-item" data-bs-interval="10000" style="height: 60vh;">
+                    <img src="data:image/png;base64,{{ GNNExplainer }}" class="d-block h-100" alt="GNNExplainer explanation" style="margin: auto;">
+                    <div class="carousel-caption d-none d-md-block">
+                    <h5>GNNExplainer explanation</h5>
+                    </div>
                 </div>
             </div>
-            <div class="carousel-item" data-bs-interval="10000" style="height: 60vh;">
-                <img src="data:image/png;base64,{{ DeepLIFT }}" class="d-block h-100" alt="DeepLIFT explanation" style="margin: auto;">
-                <div class="carousel-caption d-none d-md-block">
-                <h5>DeepLIFT explanation</h5>
-                </div>
-            </div>
-            <div class="carousel-item" data-bs-interval="10000" style="height: 60vh;">
-                <img src="data:image/png;base64,{{ GNNExplainer }}" class="d-block h-100" alt="GNNExplainer explanation" style="margin: auto;">
-                <div class="carousel-caption d-none d-md-block">
-                <h5>GNNExplainer explanation</h5>
-                </div>
-            </div>
-        </div>
 
-        <button class="carousel-control-prev" type="button" data-bs-target="#explanations" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon"></span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#explanations" data-bs-slide="next">
-        <span class="carousel-control-next-icon"></span>
-        </button>
-    </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#explanations" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#explanations" data-bs-slide="next">
+            <span class="carousel-control-next-icon"></span>
+            </button>
+        </div>
+    {% endif %}
+
 {% endblock %}

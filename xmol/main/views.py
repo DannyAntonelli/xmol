@@ -25,10 +25,7 @@ def get_explanations(data: Data) -> Dict[str, str]:
 
 def index(request):
     if request.method == 'GET':
-        smiles = request.GET.get('smiles')
-
-        if not smiles:
-            return render(request, "index.html")
+        smiles = request.GET.get('smiles', 'C1=C(C(N)=O)N=N[N]1CC2=C(C=CC=C2F)F')
 
         try:
             data = data_from_smiles(smiles)

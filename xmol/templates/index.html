@@ -2,6 +2,14 @@
 {% load static %}
 
 {% block body %}
+
+    {% if error %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <div>Error parsing the SMILES. Make sure you entered a valid molecule</div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endif %}
+
     <div class="container mt-5">
         <h2 class="text-center mb-5">Search for a molecule in SMILES format</h2>
         <div class="row height d-flex justify-content-center align-items-center">

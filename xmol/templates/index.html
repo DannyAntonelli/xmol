@@ -26,6 +26,18 @@
         </div>
     </div>
 
+    {% if prediction is not None %}
+        <div class="container mt-5">
+            <h3 class="text-center mb-5">Prediction of blood-brain barrier penetration: 
+            {% if prediction == 1 %}
+                Positive
+            {% else %}
+                Negative
+            {% endif %}
+            </h3>
+        </div>
+    {% endif %}
+
     {% if not error %}
         <div id="explanations" class="carousel carousel-dark slide" data-bs-ride="carousel">
 

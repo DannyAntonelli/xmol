@@ -11,7 +11,7 @@ from torch_geometric.data import Data
 
 def get_explanations(data: Data) -> Dict[str, str]:
     prediction = int(conf.gcn_model.predict(data.x, data.edge_index))
-    explanations = {}
+    explanations = {"prediction": prediction}
 
     for xai_method in conf.xai_methods:
         if type(xai_method.explainer) in [SubgraphX, PGExplainer]:
@@ -29,7 +29,8 @@ def index(request):
 
         try:
             data = data_from_smiles(smiles)
-        except AttributeError:
+            explanations = get_explanations(data)
+        except Exception:
             return render(request, "index.html", context={"error": True})
 
-        return render(request, "index.html", context=get_explanations(data))
+        return render(request, "index.html", context=explanations)

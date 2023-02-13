@@ -2,4 +2,112 @@
 {% load static %}
 
 {% block body %}
+
+    <div class="container mt-5">
+
+        <h3>BBBP dataset</h3>
+        <div class="row height d-flex justify-content-center align-items-center">
+            <div class="col-md-12">
+                <p>
+                    The Dataset used is BBBP from the <a href="https://arxiv.org/abs/1703.00564">MoleculeNet</a> datasets.
+                    It includes binary labels for over 2000 compounds on their blood-brain barrier penetration property.
+                </p>
+            </div>
+        </div>
+
+        <h3 class="mt-4">Graph Neural Network architecture</h3>
+        <div class="row height d-flex justify-content-center align-items-center">
+            <div class="col-md-12">
+                <p>
+                    The model used is composed of a convolution part followed by a classifier.
+                    The convolution is composed of three <code>torch_geometric.nn.GCNConv</code> layers.
+                    They are graph convolutional operators from the <a href="https://arxiv.org/abs/1606.09375/">"Semi-supervised Classification with Graph Convolutional Networks"</a> paper.
+                    The classifier is a classic Neural Network with fully connected and dropout layers.
+                </p>
+                <pre><code class="language-python">class GCN(GNNBasic):
+    def __init__(
+        self,
+        input_dim: int,
+        output_dim: int,
+        hidden_dim: int=256,
+        dropout: float=0.5
+    ) -> None:
+        super(GCN, self).__init__()
+
+        self.convs = nn.ModuleList(
+            [
+                gnn.GCNConv(input_dim, hidden_dim),
+                gnn.GCNConv(hidden_dim, hidden_dim),
+                gnn.GCNConv(hidden_dim, hidden_dim)
+            ]
+        )
+
+        self.classifier = nn.Sequential(
+            nn.Linear(hidden_dim, hidden_dim),
+            nn.ReLU(),
+            nn.Dropout(dropout),
+            nn.Linear(hidden_dim, output_dim),
+            nn.Tanh()
+        )
+
+    def forward(self, *args, **kwargs) -> torch.Tensor:
+        x, edge_index, batch = self.arguments_read(*args, **kwargs)
+        x = self.get_emb(x, edge_index, batch)
+        return self.classifier(gnn.global_max_pool(x, batch))
+
+    def get_emb(self, *args, **kwargs) -> torch.Tensor:
+        x, edge_index, _ = self.arguments_read(*args, **kwargs)
+        for conv in self.convs:
+            x = conv(x, edge_index).relu()
+        return x
+
+    def predict(self, *args, **kwargs) -> torch.Tensor:
+        x, edge_index, batch = self.arguments_read(*args, **kwargs)
+        return self(x, edge_index, batch).argmax(dim=1).squeeze()</code></pre>
+            </div>
+        </div>
+
+        <h3 class="mt-4">DeepLIFT</h3>
+        <div class="row height d-flex justify-content-center align-items-center">
+            <div class="col-md-12">
+                <p>
+                    <a href="https://arxiv.org/abs/1704.02685">DeepLIFT</a> extends a popular method for image classifiers.
+                    It can also be considered as an efficient approximation for Shapley values.
+                </p>
+            </div>
+        </div>
+
+        <h3 class="mt-4">GradCAM</h3>
+        <div class="row height d-flex justify-content-center align-items-center">
+            <div class="col-md-12">
+                <p>
+                    <a href="https://openaccess.thecvf.com/content_CVPR_2019/papers/Pope_Explainability_Methods_for_Graph_Convolutional_Neural_Networks_CVPR_2019_paper.pdf">Grad-CAM</a> extends the popular <a href="https://arxiv.org/abs/1512.04150">Class Activation Mapping</a> (CAM) method to graph classification models.
+                    It does so by mapping the node embeddings to the input space to measure node importance.
+                </p>
+            </div>
+        </div>
+
+        <h3 class="mt-4">GNNExplainer</h3>
+        <div class="row height d-flex justify-content-center align-items-center">
+            <div class="col-md-12">
+                <p>
+                    <a href="https://arxiv.org/abs/1903.03894">GNNExplainer</a> learns randomly initialized edge masks to explain the prediction via mask optimization.
+                    These masks are optimized for each input graph individually, hence the explanations may lack a global view.
+                </p>
+            </div>
+        </div>
+
+        <h3 class="mt-4">Sparsity, Fidelity+ and Fidelity-</h3>
+        <div class="row height d-flex justify-content-center align-items-center">
+            <div class="col-md-12">
+                <ul>
+                    <li>Sparsity measures the fraction of features selected as important by the explanation (the higher the better).</li>
+                    <li>Fidelity+ is computed by taking the difference between the original model output and the model output after important features are masked out (the higher the better).</li>
+                    <li>Fidelity- is computed by taking the difference between the original model output and the model output after unimportant features are masked out (the lower the better).</li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
 {% endblock %}
